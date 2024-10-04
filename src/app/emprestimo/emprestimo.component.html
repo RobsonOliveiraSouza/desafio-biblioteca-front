@@ -1,1 +1,83 @@
-<p>emprestimo works!</p>
+<div class="navbar">
+    <h1>Biblioteca API - Empréstimos</h1>
+    <nav>
+        <a href="./../usuario/usuario.component.html">Usuário</a>
+        <a href="./../livro/livro.component.html">Livro</a>
+        <a href="./../emprestimo/emprestimo.component.html">Usuário</a>
+    </nav>
+  </div>
+  
+  <div class="container">
+    <h2>Cadastro de Empréstimos</h2>
+  
+    <form (ngSubmit)="cadastrarEmprestimo()" [formGroup]="emprestimoForm" class="form">
+      <div class="form-group">
+        <label for="email">E-mail do Usuário</label>
+        <input id="email" formControlName="email" type="email" placeholder="Digite o e-mail do usuário" />
+        <div *ngIf="emprestimoForm.controls['email'].invalid && emprestimoForm.controls['email'].touched">
+          <small class="error-text">O e-mail é obrigatório e deve ser válido.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="livro">Livro</label>
+        <select id="livro" formControlName="isbn">
+          <option value="">Selecione um livro</option>
+          <option *ngFor="let livro of livros" [value]="livro.isbn">
+            {{ livro.titulo }} (ISBN: {{ livro.isbn }})
+          </option>
+        </select>
+        <div *ngIf="emprestimoForm.controls['isbn'].invalid && emprestimoForm.controls['isbn'].touched">
+          <small class="error-text">O ISBN do livro é obrigatório.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="dataEmprestimo">Data do Empréstimo</label>
+        <input id="dataEmprestimo" formControlName="dataEmprestimo" type="date" placeholder="Digite a data do empréstimo" />
+        <div *ngIf="emprestimoForm.controls['dataEmprestimo'].invalid && emprestimoForm.controls['dataEmprestimo'].touched">
+          <small class="error-text">A data do empréstimo é obrigatória.</small>
+        </div>
+      </div>      
+  
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status">
+          <option value="EMPRESTADO">EMPRESTADO</option>
+          <option value="LIBERADO">LIBERADO</option>
+        </select>
+        <div *ngIf="emprestimoForm.controls['status'].invalid && emprestimoForm.controls['status'].touched">
+          <small class="error-text">O status do empréstimo é obrigatório.</small>
+        </div>
+      </div>
+  
+      <button type="submit" class="btn-submit" [disabled]="emprestimoForm.invalid">Cadastrar Empréstimo</button>
+    </form>
+  
+    <h2>Lista de Empréstimos</h2>
+    <table class="emprestimo-table">
+      <thead>
+        <tr>
+          <th>Usuário</th>
+          <th>Livro</th>
+          <th>Data do Empréstimo</th>
+          <th>Data de Devolução</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emprestimo of emprestimos">
+          <td>{{ emprestimo.usuario.email }}</td>
+          <td>{{ emprestimo.livro.titulo }}</td>
+          <td>{{ emprestimo.dataEmprestimo | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ emprestimo.dataDevolucao ? (emprestimo.dataDevolucao | date: 'dd/MM/yyyy') : 'N/A' }}</td>
+          <td>{{ emprestimo.status }}</td>
+          <td>
+            <button (click)="deletarEmprestimo(emprestimo.id)" class="btn-delete" [disabled]="emprestimo.status !== 'EMPRESTADO'">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

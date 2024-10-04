@@ -1,4 +1,3 @@
-// src/app/usuario/usuario.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioService } from './../usuario.service';
@@ -44,8 +43,8 @@ export class UsuarioComponent implements OnInit {
       this.usuarioService.cadastrarUsuario(this.usuarioForm.value).subscribe(
         (response) => {
           console.log('Usuário cadastrado:', response);
-          this.listarUsuario(); // Atualiza a lista de usuários após cadastro
-          this.usuarioForm.reset(); // Reseta o formulário
+          this.listarUsuario();
+          this.usuarioForm.reset();
         },
         (error) => {
           console.error('Erro ao cadastrar usuário:', error);
@@ -58,7 +57,7 @@ export class UsuarioComponent implements OnInit {
     this.usuarioService.deletarUsuario(id).subscribe(
       () => {
         console.log('Usuário deletado');
-        this.listarUsuario(); // Atualiza a lista de usuários após deletar
+        this.listarUsuario();
       },
       (error) => {
         console.error('Erro ao deletar usuário:', error);

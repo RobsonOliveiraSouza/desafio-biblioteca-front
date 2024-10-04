@@ -1,1 +1,85 @@
-<p>livro works!</p>
+<div class="navbar">
+    <h1>Biblioteca API</h1>
+    <nav>
+        <a href="./../usuario/usuario.component.html">Usuário</a>
+        <a href="./../livro/livro.component.html">Livro</a>
+        <a href="./../emprestimo/emprestimo.component.html">Usuário</a>
+    </nav>
+  </div>
+  
+  <div class="container">
+    <h2>Cadastro de Livros</h2>
+    
+    <form (ngSubmit)="cadastrarLivro()" [formGroup]="livroForm" class="form">
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input id="titulo" formControlName="titulo" type="text" placeholder="Digite o título" />
+        <div *ngIf="livroForm.controls['titulo'].invalid && livroForm.controls['titulo'].touched">
+          <small class="error-text">O título é obrigatório.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="autor">Autor</label>
+        <input id="autor" formControlName="autor" type="text" placeholder="Digite o nome do autor" />
+        <div *ngIf="livroForm.controls['autor'].invalid && livroForm.controls['autor'].touched">
+          <small class="error-text">O autor é obrigatório.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="isbn">ISBN</label>
+        <input id="isbn" formControlName="isbn" type="text" placeholder="Digite o ISBN (123-1234567890)" />
+        <div *ngIf="livroForm.controls['isbn'].invalid && livroForm.controls['isbn'].touched">
+          <small class="error-text">O ISBN é obrigatório e deve estar no formato correto.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="dataPublicacao">Data de Publicação</label>
+        <input id="dataPublicacao" formControlName="dataPublicacao" type="date" placeholder="Digite a data de publicação" />
+        <div *ngIf="livroForm.controls['dataPublicacao'].invalid && livroForm.controls['dataPublicacao'].touched">
+          <small class="error-text">A data de publicação é obrigatória.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="categoria">Categoria</label>
+        <input id="categoria" formControlName="categoria" type="text" placeholder="Digite a categoria do livro" />
+        <div *ngIf="livroForm.controls['categoria'].invalid && livroForm.controls['categoria'].touched">
+          <small class="error-text">A categoria é obrigatória.</small>
+        </div>
+      </div>
+  
+      <button type="submit" class="btn-submit" [disabled]="livroForm.invalid">Cadastrar Livro</button>
+    </form>
+  
+    <h2>Lista de Livros</h2>
+    <table class="book-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>ISBN</th>
+          <th>Data de Publicação</th>
+          <th>Categoria</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let livro of livros">
+          <td>{{ livro.titulo }}</td>
+          <td>{{ livro.autor }}</td>
+          <td>{{ livro.isbn }}</td>
+          <td>{{ livro.dataPublicacao | date:'dd/MM/yyyy' }}</td>
+          <td>{{ livro.categoria }}</td>
+          <td>{{ livro.ativo ? 'Ativo' : 'Inativo' }}</td>
+          <td>
+            <button (click)="deletarLivro(livro.id)" class="btn-delete" [disabled]="!livro.ativo">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
